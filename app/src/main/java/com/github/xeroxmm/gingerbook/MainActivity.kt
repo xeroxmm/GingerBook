@@ -1,84 +1,94 @@
 package com.github.xeroxmm.gingerbook
 
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.design.widget.NavigationView
-import android.support.v4.view.GravityCompat
-import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
-import android.view.Menu
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.MenuItem
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.app_bar_main.*
+import android.support.v7.widget.DefaultItemAnimator
+import android.support.v7.widget.Toolbar
+import android.view.View
+import com.github.xeroxmm.gingerbook.recycleview.Movie
+import com.github.xeroxmm.gingerbook.recycleview.MyAdapter
+
+
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    private val movieList = ArrayList<Movie>()
+    private var recyclerView: RecyclerView? = null
+    private var mAdapter: MyAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        val toolbar = findViewById<View>(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
 
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
-        }
+        recyclerView = findViewById<View>(R.id.recycler_view) as RecyclerView
 
-        val toggle = ActionBarDrawerToggle(
-                this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
-        drawer_layout.addDrawerListener(toggle)
-        toggle.syncState()
+        mAdapter = MyAdapter(movieList)
+        val mLayoutManager = LinearLayoutManager(applicationContext)
+        recyclerView!!.layoutManager = mLayoutManager
+        recyclerView!!.itemAnimator = DefaultItemAnimator()
+        recyclerView!!.adapter = mAdapter
 
-        nav_view.setNavigationItemSelectedListener(this)
+        prepareMovieData()
     }
 
-    override fun onBackPressed() {
-        if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
-            drawer_layout.closeDrawer(GravityCompat.START)
-        } else {
-            super.onBackPressed()
-        }
-    }
+    private fun prepareMovieData() {
+        var movie = Movie("Mad Max: Fury Road", "Action & Adventure", "2015")
+        movieList.add(movie)
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.main, menu)
-        return true
-    }
+        movie = Movie("Inside Out", "Animation, Kids & Family", "2015")
+        movieList.add(movie)
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        when (item.itemId) {
-            R.id.action_settings -> return true
-            else -> return super.onOptionsItemSelected(item)
-        }
-    }
+        movie = Movie("Star Wars: Episode VII - The Force Awakens", "Action", "2015")
+        movieList.add(movie)
 
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        // Handle navigation view item clicks here.
-        when (item.itemId) {
-            R.id.nav_camera -> {
-                // Handle the camera action
-            }
-            R.id.nav_gallery -> {
+        movie = Movie("Shaun the Sheep", "Animation", "2015")
+        movieList.add(movie)
 
-            }
-            R.id.nav_slideshow -> {
+        movie = Movie("The Martian", "Science Fiction & Fantasy", "2015")
+        movieList.add(movie)
 
-            }
-            R.id.nav_manage -> {
+        movie = Movie("Mission: Impossible Rogue Nation", "Action", "2015")
+        movieList.add(movie)
 
-            }
-            R.id.nav_share -> {
+        movie = Movie("Up", "Animation", "2009")
+        movieList.add(movie)
 
-            }
-            R.id.nav_send -> {
+        movie = Movie("Star Trek", "Science Fiction", "2009")
+        movieList.add(movie)
 
-            }
-        }
+        movie = Movie("The LEGO Movie", "Animation", "2014")
+        movieList.add(movie)
 
-        drawer_layout.closeDrawer(GravityCompat.START)
-        return true
+        movie = Movie("Iron Man", "Action & Adventure", "2008")
+        movieList.add(movie)
+
+        movie = Movie("Aliens", "Science Fiction", "1986")
+        movieList.add(movie)
+
+        movie = Movie("Chicken Run", "Animation", "2000")
+        movieList.add(movie)
+
+        movie = Movie("Back to the Future", "Science Fiction", "1985")
+        movieList.add(movie)
+
+        movie = Movie("Raiders of the Lost Ark", "Action & Adventure", "1981")
+        movieList.add(movie)
+
+        movie = Movie("Goldfinger", "Action & Adventure", "1965")
+        movieList.add(movie)
+
+        movie = Movie("Guardians of the Galaxy", "Science Fiction & Fantasy", "2014")
+        movieList.add(movie)
+
+        mAdapter!!.notifyDataSetChanged()
     }
 }
